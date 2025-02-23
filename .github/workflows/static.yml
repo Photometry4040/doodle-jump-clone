@@ -29,13 +29,14 @@ jobs:
         run: |
           cd doodle_jump_clone
           python -m pygbag --build --app-name="Doodle Jump Clone" main.py
-      - name: List build directory
+      - name: Prepare web directory
         run: |
-          ls -la doodle_jump_clone/build/web
-      - name: Upload artifact
+          mkdir -p _site
+          cp -r doodle_jump_clone/build/web/* _site/
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'doodle_jump_clone/build/web'
+          path: _site
 
   deploy:
     needs: build
