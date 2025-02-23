@@ -23,13 +23,16 @@ jobs:
           pip install pygame pygbag
       - name: Build with pygbag
         run: |
-          pygbag --build --app-name="Doodle Jump Clone" --archive --bind="0.0.0.0" doodle_jump_clone/main.py
+          cd doodle_jump_clone
+          python -m pygbag main.py
       - name: List build directory
-        run: ls -la build/web
+        run: |
+          cd doodle_jump_clone
+          ls -la build/web
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'build/web'
+          path: 'doodle_jump_clone/build/web'
 
   deploy:
     needs: build
