@@ -28,7 +28,7 @@ jobs:
       - name: Build with pygbag
         run: |
           cd doodle_jump_clone
-          python -m pygbag --build --app-name="Doodle Jump Clone" main.py
+          pygbag --app-name "Doodle Jump Clone" --build --html --archive main.py
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v4
