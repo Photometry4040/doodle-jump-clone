@@ -19,37 +19,36 @@ def generate_platforms(screen_height, screen_width):
 def check_collision(player, platforms):
     hits = pygame.sprite.spritecollide(player, platforms, False)
     for platform in hits:
-        # 플레이어가 떨어지는 중이고, 플랫폼의 윗부분에 닿았을 때만 점프
         if player.velocity_y > 0:  # 떨어지는 중일 때만
             platform_top = platform.rect.top
             player_bottom = player.rect.bottom
             
-            # 플랫폼 상단 부근에서 충돌했는지 확인 (약간의 여유 허용)
-            if player_bottom >= platform_top and player_bottom <= platform_top + 10:
+            # 충돌 감지 범위 확대
+            if player_bottom >= platform_top and player_bottom <= platform_top + 20:  # 10에서 20으로 변경
                 player.rect.bottom = platform_top
                 player.velocity_y = 0
-                player.jump()  # 자동 점프
+                player.jump()
                 return True
     return False
 
 def update_platforms(platforms, all_sprites, screen_height, screen_width):
-    # 화면 아래로 사라진 플랫폼 제거 및 새로운 플랫폼 생성
+    # 플랫폼 간격 조정
     for platform in platforms:
         if platform.rect.top > screen_height:
             platform.kill()
             
-    # 새로운 플랫폼 생성 - 간격 조정
     while len(platforms) < 8:
         x = random.randint(0, screen_width - 100)
-        y = random.randint(-100, -10)  # 화면 위쪽에 생성
+        # 플랫폼 간격을 더 좁게 조정
+        y = random.randint(-50, 0)  # -100, -10에서 -50, 0으로 변경
         platform = Platform(x, y)
         platforms.add(platform)
         all_sprites.add(platform)
 
 def scroll_platforms(platforms, player, screen_height, screen_width):
-    # 화면의 1/3 지점까지 올라왔을 때 스크롤 시작
+    # 스크롤 속도 조절 (이전: scroll_speed = abs(player.velocity_y))
     if player.rect.top <= screen_height * 0.3:
-        scroll_speed = abs(player.velocity_y)
+        scroll_speed = min(abs(player.velocity_y), 15)  # 최대 스크롤 속도 제한
         player.rect.y += scroll_speed
         for platform in platforms:
             platform.rect.y += scroll_speed
