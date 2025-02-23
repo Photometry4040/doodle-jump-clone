@@ -21,9 +21,14 @@ jobs:
         with:
           python-version: '3.11'
       - run: pip install pygbag
-      - run: pygbag --build doodle_jump_clone
+      - name: Build with pygbag
+        run: |
+          cd doodle_jump_clone
+          python -m pygbag --build main.py
+      - name: Check build directory
+        run: ls -la
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: 'build/web'
+          path: 'doodle_jump_clone/build/web'
       - id: deploy
         uses: actions/deploy-pages@v4 
