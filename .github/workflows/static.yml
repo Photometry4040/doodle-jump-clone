@@ -1,0 +1,29 @@
+name: Deploy Doodle Jump Clone
+
+on:
+  push:
+    branches: ["main"]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: pip install pygbag
+      - run: pygbag --build doodle_jump_clone
+      - uses: actions/upload-pages-artifact@v2
+        with:
+          path: 'build/web'
+      - id: deploy
+        uses: actions/deploy-pages@v2 
