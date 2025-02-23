@@ -29,14 +29,18 @@ jobs:
         run: |
           cd doodle_jump_clone
           python -m pygbag --build --app-name="Doodle Jump Clone" main.py
+      - name: Create .nojekyll file
+        run: |
+          touch .nojekyll
       - name: Prepare web directory
         run: |
-          mkdir -p _site
-          cp -r doodle_jump_clone/build/web/* _site/
+          mkdir -p public
+          cp -r doodle_jump_clone/build/web/* public/
+          cp .nojekyll public/
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: public
 
   deploy:
     needs: build
