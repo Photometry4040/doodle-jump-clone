@@ -14,33 +14,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg
-      - name: Install Python dependencies
+      - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install pygame pygbag
       - name: Build with pygbag
         run: |
           cd doodle_jump_clone
-          pygbag --app-name "Doodle Jump Clone" --build --html --archive main.py
-      - name: Setup Pages
-        id: pages
-        uses: actions/configure-pages@v4
-      - name: Create docs directory
-        run: |
-          mkdir -p docs
-          cp -r doodle_jump_clone/build/web/* docs/
-          touch docs/.nojekyll
+          python -m pygbag main.py
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: 'doodle_jump_clone/build/web'
 
   deploy:
     needs: build
