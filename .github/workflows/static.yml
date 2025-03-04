@@ -25,8 +25,9 @@ jobs:
         run: |
           cd doodle_jump_clone
           python -m pygbag main.py
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+      - name: Create .nojekyll file
+        run: |
+          touch doodle_jump_clone/build/web/.nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
