@@ -34,11 +34,12 @@ jobs:
       - name: Create .nojekyll file
         run: |
           touch .nojekyll
-          touch doodle_jump_clone/build/web/.nojekyll
       - name: Build with pygbag
         run: |
           cd doodle_jump_clone
+          mkdir -p build/web
           python -m pygbag main.py
+          touch build/web/.nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
