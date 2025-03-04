@@ -34,6 +34,7 @@ jobs:
       - name: Create .nojekyll file
         run: |
           touch .nojekyll
+          touch doodle_jump_clone/build/web/.nojekyll
       - name: Build with pygbag
         run: |
           cd doodle_jump_clone
